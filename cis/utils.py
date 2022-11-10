@@ -32,7 +32,7 @@ def create_mask_from_polygon(image, contours):
     Returns:
 
     """
-
+    print('\t-creating masks')
     lung_mask = np.array(Image.new('L', image.shape, 0))
     for contour in contours:
         x = contour[:, 0]
@@ -49,7 +49,7 @@ def create_mask_from_polygon(image, contours):
 
 
 def intensity_seg(ct_numpy, min=-1000, max=-300):
-    print('chale')
+    print('initialising image segmentation ...')
     clipped = clip_ct(ct_numpy, min, max)
     # print(clipped)
     return measure.find_contours(clipped, 0.95)
@@ -95,6 +95,7 @@ def find_lungs(contours):
     Returns: contours that correspond to the lung area
 
     """
+    print('\t-finding lung contours')
     body_and_lung_contours = []
     vol_contours = []
 
@@ -115,6 +116,7 @@ def find_lungs(contours):
 
 
 def show_contour(image, contours, name=None, save=False):
+    print('\t-plotting contours')
     fig, ax = plt.subplots(facecolor="#202020")
     plt.axis('off')
     ax.imshow(image.T, cmap=plt.cm.gray)
@@ -205,6 +207,7 @@ def compute_area(mask, pixdim):
 
     Returns: the lung area in mm^2
     """
+    print('\t-calculating infection area')
     mask[mask >= 1] = 1
     lung_pixels = np.sum(mask)
     return lung_pixels * pixdim[0] * pixdim[1]

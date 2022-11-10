@@ -4,13 +4,13 @@ from CIS_Site.settings import BASE_DIR
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import get_template
-from weasyprint import HTML, CSS
+# from weasyprint import HTML, CSS
 import os
 import glob
 from django.core.files.storage import FileSystemStorage
 import csv
 from xhtml2pdf import pisa
-import pyppdf
+# import pyppdf
 import time
 
 # import matplotlib.pyplot as plt
@@ -36,6 +36,7 @@ def upload(request):
         myfile = request.FILES.getlist('myfile')
         fs = FileSystemStorage()
         i=1
+        print("\n\nuploading file ...")
         for f in myfile:
           fs.save('slice'+str(i)+'.nii.gz', f)
           i+=1
@@ -60,14 +61,14 @@ def result(request):
      contours = glob.glob(os.path.join(BASE_DIR,'static/Contours/*'))
      for x in contours:
           # print(x)
-          y=x.split("\\")[6]
+          y=x.split("\\")[-1]
           # print(y)
           contour.append(y)
      # contour = glob.glob(os.path.join(BASE_DIR,'static/Contours/*'))
      vessel_overlayeds = glob.glob(os.path.join(BASE_DIR,'static/Vessel_overlayed/*'))
      for x in vessel_overlayeds:
           # print(x)
-          y=x.split("\\")[6]
+          y=x.split("\\")[-1]
           # print(y)
           vessel_overlayed.append(y)
      m=[]
